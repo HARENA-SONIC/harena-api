@@ -13,7 +13,7 @@ public class Pageable<E> {
     int pageNumber = pageRequest.pageNumber();
     int pageSize = pageRequest.pageSize();
     int totalPage = (int) Math.ceil((double) list.size() / pageSize);
-    int lastIndex = pageNumber * pageSize - 1;
+    int lastIndex = pageNumber * pageSize;
     int firstIndex = lastIndex - pageSize;
 
     if (firstIndex > list.size() - 1 || pageNumber <= 0) {
@@ -21,7 +21,7 @@ public class Pageable<E> {
     }
 
     if (lastIndex >= list.size() - 1) {
-      List<E> subList = List.copyOf(list.subList(firstIndex, list.size() - 1));
+      List<E> subList = List.copyOf(list.subList(firstIndex, list.size()));
 
       return new Page<>(
           pageNumber,
@@ -35,7 +35,7 @@ public class Pageable<E> {
           list.size());
     }
 
-    List<E> subList = List.copyOf(list.subList(firstIndex, list.size() - 1));
+    List<E> subList = List.copyOf(list.subList(firstIndex, lastIndex));
 
     return new Page<>(
         pageNumber,
