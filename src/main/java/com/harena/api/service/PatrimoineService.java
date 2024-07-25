@@ -1,6 +1,7 @@
 package com.harena.api.service;
 
 import com.harena.api.utils.PageRequest;
+import com.harena.api.utils.StringNormalizer;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -23,7 +24,8 @@ public class PatrimoineService {
   private final Serialiseur<HashMap<String, Patrimoine>> serializer = new Serialiseur<>();
 
   @SneakyThrows
-  public Optional<Patrimoine> getPatrimone(String id) {
+  public Optional<Patrimoine> getPatrimone(String patrimoineName) {
+    String id = StringNormalizer.apply(patrimoineName);
     File patrimoineFile = bucketProvider.getBucket().download(PATRIMOINE_KEY);
     if (!patrimoineFile.exists()) {
       return Optional.empty();
@@ -48,7 +50,7 @@ public class PatrimoineService {
     HashMap<String, Patrimoine> patrimoines = serializer.deserialise(oldPatrimoineString);
     toSavePatrimoines.forEach(
         patrimoine -> {
-          patrimoines.put(normalizeName(patrimoine.nom().toLowerCase()), patrimoine);
+          patrimoines.put(StringNormalizer.apply(patrimoine.nom().toLowerCase()), patrimoine);
         });
 
     String newPatrimoineString = serializer.serialise(patrimoines);
@@ -67,9 +69,5 @@ public class PatrimoineService {
     HashMap<String, Patrimoine> patrimoines =
         serializer.deserialise(Files.readString(patrimoinesFile.toPath()));
     return patrimoines.values().stream().toList();
-  }
-
-  private String normalizeName(String name) {
-    return name.replaceAll("\\W", "_");
   }
 }
