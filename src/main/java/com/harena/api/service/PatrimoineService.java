@@ -32,7 +32,6 @@ public class PatrimoineService {
         if (!patrimoineFile.exists()) {
             return Optional.empty();
         }
-
         HashMap<String, Patrimoine> patrimoine =
                 serializer.deserialise(Files.readString(patrimoineFile.toPath()));
         log.info("Getting patrimoine of Id: " + id);
@@ -53,7 +52,6 @@ public class PatrimoineService {
                 patrimoine -> {
                     patrimoines.put(StringNormalizer.apply(patrimoine.nom().toLowerCase()), patrimoine);
                 });
-
         String newPatrimoineString = serializer.serialise(patrimoines);
         Path tmpFile = Files.createTempFile(PATRIMOINE_KEY, null);
         File serializedPatrimoine = Files.writeString(tmpFile, newPatrimoineString).toFile();

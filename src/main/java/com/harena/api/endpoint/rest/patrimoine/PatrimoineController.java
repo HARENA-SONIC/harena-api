@@ -2,7 +2,7 @@ package com.harena.api.endpoint.rest.patrimoine;
 
 import com.harena.api.endpoint.rest.model.Patrimoine;
 import com.harena.api.service.PatrimoineService;
-import com.harena.api.service.mappers.PatrmoineMapper;
+import com.harena.api.service.mappers.PatrimoineMapper;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,7 +22,7 @@ import org.springframework.web.server.ResponseStatusException;
 @RequestMapping("patrimoines")
 public class PatrimoineController {
     private final PatrimoineService patrimoineService;
-    private final PatrmoineMapper mapper;
+    private final PatrimoineMapper mapper;
 
     @PutMapping
     public String crupdatePatrimoines(@RequestBody ListPayload<Patrimoine> entity) {
