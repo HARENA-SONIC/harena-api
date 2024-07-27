@@ -8,6 +8,7 @@ import static org.mockito.Mockito.when;
 import com.harena.api.conf.FacadeIT;
 import com.harena.api.file.FileHash;
 import com.harena.api.file.LocalBucketComponent;
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -51,7 +52,7 @@ class PatrimoineServiceIT extends FacadeIT {
     String randomFilename = UUID.randomUUID() + "-harena-tests";
     when(provider.getBucket()).thenReturn(localBucketComponent);
     when(localBucketComponent.download(any()))
-        .thenReturn(Files.createTempFile(randomFilename, null).toFile());
+        .thenReturn(new File("/tmp/random-file-harena_api_test" + randomFilename));
 
     assertTrue(subject.getAllPatrimoine().isEmpty());
     assertTrue(subject.getPatrimone("test").isEmpty());
