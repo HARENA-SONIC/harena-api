@@ -4,7 +4,6 @@ import com.harena.api.utils.StringNormalizer;
 import java.util.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.servlet.resource.ResourceUrlProvider;
 import school.hei.patrimoine.modele.Patrimoine;
 import school.hei.patrimoine.modele.possession.Possession;
 

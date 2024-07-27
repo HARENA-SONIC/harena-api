@@ -7,13 +7,13 @@ class DeviseMapper implements Mapper<Devise, com.harena.api.endpoint.rest.model.
   public com.harena.api.endpoint.rest.model.Devise toRestModel(Devise objectModel) {
     var devise = new com.harena.api.endpoint.rest.model.Devise();
     devise.setNom(objectModel.nom());
-    if(objectModel == Devise.MGA){
+    if (objectModel == Devise.MGA) {
       devise.setCode("MGA");
-    }else if (objectModel == Devise.CAD){
+    } else if (objectModel == Devise.CAD) {
       devise.setCode("CAD");
-    }else if(objectModel == Devise.EUR){
+    } else if (objectModel == Devise.EUR) {
       devise.setCode("EUR");
-    }else {
+    } else {
       devise.setCode("Unknown");
     }
     return devise;

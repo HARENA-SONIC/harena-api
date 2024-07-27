@@ -21,13 +21,12 @@ class FluxAgentMapper implements Mapper<FluxArgent, com.harena.api.endpoint.rest
   @Override
   public FluxArgent toObjectModel(com.harena.api.endpoint.rest.model.FluxArgent restModel) {
     return new FluxArgent(
-      restModel.getNom(),
-      new ArgentMapper().toObjectModel(restModel.getArgent()),
-      restModel.getDebut(),
-      restModel.getFin(),
-      restModel.getFluxMensuel(),
-      restModel.getDateDOperation(),
-      new DeviseMapper().toObjectModel(restModel.getDevise())
-    );
+        restModel.getNom(),
+        new ArgentMapper().toObjectModel(restModel.getArgent()),
+        restModel.getDebut(),
+        restModel.getFin(),
+        restModel.getFluxMensuel(),
+        restModel.getDateDOperation(),
+        new DeviseMapper().toObjectModel(restModel.getDevise()));
   }
 }
