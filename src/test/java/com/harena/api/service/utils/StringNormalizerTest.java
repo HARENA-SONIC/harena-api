@@ -1,9 +1,9 @@
 package com.harena.api.service.utils;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import com.harena.api.utils.StringNormalizer;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class StringNormalizerTest {
   @Test
