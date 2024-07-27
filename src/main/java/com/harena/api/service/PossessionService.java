@@ -53,7 +53,7 @@ public class PossessionService {
             patrimoine.get().t(),
             new HashSet<>(possessions.values()));
 
-    patrimoineService.savePatrimoine(List.of(updatedPatrimoine));
+    patrimoineService.savePatrimoines(List.of(updatedPatrimoine));
     return toSavePossessions;
   }
 
@@ -64,7 +64,16 @@ public class PossessionService {
     }
 
     HashMap<String, Possession> possessions = retrievePossessions(patrimoine.get());
-    return Optional.ofNullable(possessions.remove(StringNormalizer.apply(possessionName)));
+    Optional<Possession> removedPossession =
+        Optional.ofNullable(possessions.remove(StringNormalizer.apply(possessionName)));
+
+    if (removedPossession.isEmpty()) {
+      return Optional.empty();
+    }
+
+    patrimoineService.savePatrimoines(List.of(patrimoine.get()));
+
+    return removedPossession;
   }
 
   private HashMap<String, Possession> retrievePossessions(Patrimoine patrimoine) {
