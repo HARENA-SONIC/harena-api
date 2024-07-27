@@ -48,10 +48,10 @@ class PatrimoineServiceIT extends FacadeIT {
   }
 
   @Test
-  void patrimoine_service_test_with_no_files() {
-    String randomFilename = UUID.randomUUID().toString() + "-harena-tests";
+  void patrimoine_service_test_with_no_files() throws IOException {
+    String randomFilename = UUID.randomUUID() + "-harena-tests";
     when(provider.getBucket()).thenReturn(localBucketComponent);
-    when(localBucketComponent.download(any())).thenReturn(new File(randomFilename));
+    when(localBucketComponent.download(any())).thenReturn(Files.createTempFile(randomFilename, null).toFile());
 
     assertTrue(subject.getAllPatrimoine().isEmpty());
     assertTrue(subject.getPatrimone("test").isEmpty());
