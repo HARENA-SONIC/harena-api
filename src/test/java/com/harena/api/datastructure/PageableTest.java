@@ -1,13 +1,12 @@
 package com.harena.api.datastructure;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import com.harena.api.utils.PageRequest;
 import com.harena.api.utils.Pageable;
-import org.junit.jupiter.api.Test;
-
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
 
 public class PageableTest {
   @Test
@@ -24,14 +23,16 @@ public class PageableTest {
     assertEquals(List.of(4, 5, 6), subject.getPage(new PageRequest(2, 3)).data());
     assertEquals(List.of(7, 8), subject.getPage(new PageRequest(3, 3)).data());
 
-    assertTrue(subject.getPage(new PageRequest(3, 3)).isLast());
-    assertTrue(subject.getPage(new PageRequest(1, 3)).isFirst());
+    assertTrue(subject.getPage(PageRequest.of(3, 3)).isLast());
+    assertTrue(subject.getPage(PageRequest.of(1, 3)).isFirst());
 
-    assertThrows(IndexOutOfBoundsException.class,() -> subject.getPage(
-        new PageRequest(-1, subject.getTotalElements())));
+    assertThrows(
+        IndexOutOfBoundsException.class,
+        () -> subject.getPage(new PageRequest(-1, subject.getTotalElements())));
 
-    assertThrows(IndexOutOfBoundsException.class,() -> subject.getPage(
-        new PageRequest(9, subject.getTotalElements())));
+    assertThrows(
+        IndexOutOfBoundsException.class,
+        () -> subject.getPage(new PageRequest(9, subject.getTotalElements())));
 
     assertFalse(subject.getPage(new PageRequest(1, subject.getTotalElements())).hasPrevious());
   }
