@@ -16,6 +16,20 @@ public class Pageable<E> {
     int lastIndex = pageNumber * pageSize;
     int firstIndex = lastIndex - pageSize;
 
+    if (list.isEmpty()) {
+      return new Page<>(
+          1,
+          true,
+          true,
+          list,
+          false,
+          false,
+          1,
+          pageSize,
+          0
+      );
+    }
+
     if (firstIndex > list.size() - 1 || pageNumber <= 0) {
       throw new IndexOutOfBoundsException();
     }

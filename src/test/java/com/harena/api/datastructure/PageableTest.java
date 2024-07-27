@@ -35,5 +35,8 @@ public class PageableTest {
         () -> subject.getPage(new PageRequest(9, subject.getTotalElements())));
 
     assertFalse(subject.getPage(new PageRequest(1, subject.getTotalElements())).hasPrevious());
+
+    var emptyList = List.of();
+    assertEquals(0, new Pageable<>(emptyList).getPage(PageRequest.of(1, 23)).totalElements());
   }
 }
