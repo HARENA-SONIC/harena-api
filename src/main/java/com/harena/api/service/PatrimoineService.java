@@ -1,6 +1,5 @@
 package com.harena.api.service;
 
-import com.harena.api.utils.PageRequest;
 import com.harena.api.utils.StringNormalizer;
 import java.io.File;
 import java.nio.file.Files;
@@ -38,7 +37,7 @@ public class PatrimoineService {
   }
 
   @SneakyThrows
-  public List<Patrimoine> savePatrimoine(List<Patrimoine> toSavePatrimoines) {
+  public List<Patrimoine> savePatrimoines(List<Patrimoine> toSavePatrimoines) {
     File oldPatrimoinesFile = bucketProvider.getBucket().download(PATRIMOINE_KEY);
     if (!oldPatrimoinesFile.exists()) {
       oldPatrimoinesFile.createNewFile();
@@ -61,7 +60,7 @@ public class PatrimoineService {
   }
 
   @SneakyThrows
-  public List<Patrimoine> getAllPatrimoine(PageRequest request) {
+  public List<Patrimoine> getAllPatrimoine() {
     File patrimoinesFile = bucketProvider.getBucket().download(PATRIMOINE_KEY);
     if (!patrimoinesFile.exists()) {
       return List.of();
