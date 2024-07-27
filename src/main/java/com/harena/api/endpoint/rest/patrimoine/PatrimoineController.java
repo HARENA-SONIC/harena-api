@@ -3,16 +3,16 @@ package com.harena.api.endpoint.rest.patrimoine;
 import com.harena.api.endpoint.rest.model.Patrimoine;
 import com.harena.api.service.PatrimoineService;
 import com.harena.api.service.mappers.PatrimoineMapper;
+
 import java.util.List;
 import java.util.Optional;
+
+import com.harena.api.utils.Page;
+import com.harena.api.utils.PageRequest;
+import com.harena.api.utils.Pageable;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 @RestController
@@ -32,9 +32,12 @@ public class PatrimoineController {
   }
 
   @GetMapping
-  public ListPayload<Patrimoine> getPatrimoines() {
-    return new ListPayload<>(
+  public Page<Patrimoine> getPatrimoines(
+      @RequestParam("page") int pageNumber,
+      @RequestParam("page_size") int pageSize) {
+    Pageable<Patrimoine> patrimoinePageable = new Pageable<>(
         patrimoineService.getAllPatrimoine().stream().map(mapper::toRestModel).toList());
+    return patrimoinePageable.getPage(PageRequest.of(pageNumber, pageSize));
   }
 
   @GetMapping("/{nom_patrimoine}")
