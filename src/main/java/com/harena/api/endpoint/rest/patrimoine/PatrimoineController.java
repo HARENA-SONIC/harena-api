@@ -2,7 +2,7 @@ package com.harena.api.endpoint.rest.patrimoine;
 
 import com.harena.api.endpoint.rest.model.Patrimoine;
 import com.harena.api.service.PatrimoineService;
-import com.harena.api.service.mappers.PatrmoineMapper;
+import com.harena.api.service.mappers.PatrimoineMapper;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -20,20 +20,21 @@ import org.springframework.web.server.ResponseStatusException;
 @RequestMapping("patrimoines")
 public class PatrimoineController {
   private final PatrimoineService patrimoineService;
-  private final PatrmoineMapper mapper;
+  private final PatrimoineMapper mapper;
 
   @PutMapping
-  public String crupdatePatrimoines(@RequestBody ListPayload<Patrimoine> entity) {
+  public List<Patrimoine> crupdatePatrimoines(@RequestBody ListPayload<Patrimoine> entity) {
     List<school.hei.patrimoine.modele.Patrimoine> patrimoines =
         entity.data().stream().map(mapper::toObjectModel).toList();
-    patrimoineService.savePatrimoine(patrimoines);
-    return "OK";
+    return patrimoineService.savePatrimoines(patrimoines).stream()
+        .map(mapper::toRestModel)
+        .toList();
   }
 
   @GetMapping
   public ListPayload<Patrimoine> getPatrimoines() {
     return new ListPayload<>(
-        patrimoineService.getAllPatrimoine(null).stream().map(mapper::toRestModel).toList());
+        patrimoineService.getAllPatrimoine().stream().map(mapper::toRestModel).toList());
   }
 
   @GetMapping("/{nom_patrimoine}")

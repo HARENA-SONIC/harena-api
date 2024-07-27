@@ -6,7 +6,7 @@ import school.hei.patrimoine.modele.Patrimoine;
 import school.hei.patrimoine.modele.Personne;
 
 @Component
-public class PatrmoineMapper
+public class PatrimoineMapper
     implements Mapper<Patrimoine, com.harena.api.endpoint.rest.model.Patrimoine> {
 
   @Override
