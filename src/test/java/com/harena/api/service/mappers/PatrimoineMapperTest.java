@@ -1,10 +1,8 @@
-package com.harena.api.conf.service.mappers;
+package com.harena.api.service.mappers;
 
 import static java.time.Month.JUNE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import com.harena.api.service.mappers.Mapper;
-import com.harena.api.service.mappers.PatrimoineMapper;
 import java.time.LocalDate;
 import java.util.Set;
 import org.junit.jupiter.api.Test;
