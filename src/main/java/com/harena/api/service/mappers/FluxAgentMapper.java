@@ -1,7 +1,9 @@
 package com.harena.api.service.mappers;
 
+import org.springframework.stereotype.Component;
 import school.hei.patrimoine.modele.possession.FluxArgent;
 
+@Component
 class FluxAgentMapper implements Mapper<FluxArgent, com.harena.api.endpoint.rest.model.FluxArgent> {
   @Override
   public com.harena.api.endpoint.rest.model.FluxArgent toRestModel(FluxArgent objectModel) {

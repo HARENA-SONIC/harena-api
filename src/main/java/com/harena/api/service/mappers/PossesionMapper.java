@@ -2,11 +2,13 @@ package com.harena.api.service.mappers;
 
 import static com.harena.api.endpoint.rest.model.Possession.TypeEnum.*;
 
+import org.springframework.stereotype.Component;
 import school.hei.patrimoine.modele.possession.Argent;
 import school.hei.patrimoine.modele.possession.FluxArgent;
 import school.hei.patrimoine.modele.possession.Materiel;
 import school.hei.patrimoine.modele.possession.Possession;
 
+@Component
 public class PossesionMapper
     implements Mapper<Possession, com.harena.api.endpoint.rest.model.Possession> {
   @Override

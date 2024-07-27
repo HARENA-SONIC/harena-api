@@ -3,10 +3,12 @@ package com.harena.api.service.mappers;
 import static com.harena.api.endpoint.rest.model.Argent.TypeEnum.*;
 import static java.util.Objects.requireNonNullElse;
 
+import org.springframework.stereotype.Component;
 import school.hei.patrimoine.modele.possession.Argent;
 import school.hei.patrimoine.modele.possession.Creance;
 import school.hei.patrimoine.modele.possession.Dette;
 
+@Component
 public class ArgentMapper implements Mapper<Argent, com.harena.api.endpoint.rest.model.Argent> {
   @Override
   public com.harena.api.endpoint.rest.model.Argent toRestModel(Argent objectModel) {

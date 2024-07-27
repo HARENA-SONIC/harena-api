@@ -4,8 +4,10 @@ import static java.util.Objects.requireNonNullElse;
 
 import java.time.LocalDate;
 import lombok.SneakyThrows;
+import org.springframework.stereotype.Component;
 import school.hei.patrimoine.modele.possession.Materiel;
 
+@Component
 class MaterielMapper implements Mapper<Materiel, com.harena.api.endpoint.rest.model.Materiel> {
   @SneakyThrows
   private static Object getPrivateFieldValue(String fieldName, Object instance) {
