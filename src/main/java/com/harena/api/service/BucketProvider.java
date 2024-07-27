@@ -3,14 +3,18 @@ package com.harena.api.service;
 import com.harena.api.file.BucketComponent;
 import com.harena.api.file.BucketConf;
 import com.harena.api.file.LocalBucketComponent;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
-@RequiredArgsConstructor
 public class BucketProvider {
-  private static final String method = System.getenv("STORAGE_METHOD");
+  private final String method;
   private final BucketConf bucketConf;
+
+  public BucketProvider(BucketConf bucketConf, @Value("${storage.method}") String method) {
+    this.bucketConf = bucketConf;
+    this.method = method;
+  }
 
   public BucketComponent getBucket() {
     if (method.equals("LOCAL")) {
