@@ -3,13 +3,11 @@ package com.harena.api.endpoint.rest.patrimoine;
 import com.harena.api.endpoint.rest.model.Patrimoine;
 import com.harena.api.service.PatrimoineService;
 import com.harena.api.service.mappers.PatrimoineMapper;
-
-import java.util.List;
-import java.util.Optional;
-
 import com.harena.api.utils.Page;
 import com.harena.api.utils.PageRequest;
 import com.harena.api.utils.Pageable;
+import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -33,10 +31,10 @@ public class PatrimoineController {
 
   @GetMapping
   public Page<Patrimoine> getPatrimoines(
-      @RequestParam("page") int pageNumber,
-      @RequestParam("page_size") int pageSize) {
-    Pageable<Patrimoine> patrimoinePageable = new Pageable<>(
-        patrimoineService.getAllPatrimoine().stream().map(mapper::toRestModel).toList());
+      @RequestParam("page") int pageNumber, @RequestParam("page_size") int pageSize) {
+    Pageable<Patrimoine> patrimoinePageable =
+        new Pageable<>(
+            patrimoineService.getAllPatrimoine().stream().map(mapper::toRestModel).toList());
     return patrimoinePageable.getPage(PageRequest.of(pageNumber, pageSize));
   }
 

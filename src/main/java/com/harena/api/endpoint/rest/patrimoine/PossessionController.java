@@ -6,13 +6,12 @@ import com.harena.api.service.mappers.PossesionMapper;
 import com.harena.api.utils.Page;
 import com.harena.api.utils.PageRequest;
 import com.harena.api.utils.Pageable;
+import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-
-import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -32,7 +31,8 @@ public class PossessionController {
     if (possessions.isEmpty()) {
       throw new ResponseStatusException(HttpStatus.NOT_FOUND);
     }
-    List<Possession> possessionList = possessions.get().stream().map(possesionMapper::toRestModel).toList();
+    List<Possession> possessionList =
+        possessions.get().stream().map(possesionMapper::toRestModel).toList();
     Pageable<Possession> possessionPageable = new Pageable<>(possessionList);
 
     return possessionPageable.getPage(PageRequest.of(pageNumber, pageSize));
@@ -42,18 +42,23 @@ public class PossessionController {
   public List<Possession> crupdatePatrimoinePossessions(
       @PathVariable(name = "nom_patrimoine") String nomPatrimoine,
       @RequestBody ListPayload<Possession> toSavePossessions) {
-    return possessionService.savePossessions(
+    return possessionService
+        .savePossessions(
             nomPatrimoine,
             toSavePossessions.data().stream().map(possesionMapper::toObjectModel).toList())
-        .stream().map(possesionMapper::toRestModel).toList();
+        .stream()
+        .map(possesionMapper::toRestModel)
+        .toList();
   }
 
   @GetMapping("/{nom_possession}")
   public Possession getPossessionPatrimoineByNom(
       @PathVariable(name = "nom_patrimoine") String nomPatrimoine,
       @PathVariable(name = "nom_possession") String nomPossession) {
-    Optional<Possession> fetchedPossession = possessionService.getPossession(nomPatrimoine, nomPossession)
-        .map(possesionMapper::toRestModel);
+    Optional<Possession> fetchedPossession =
+        possessionService
+            .getPossession(nomPatrimoine, nomPossession)
+            .map(possesionMapper::toRestModel);
 
     return fetchedPossession.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
   }
@@ -62,7 +67,8 @@ public class PossessionController {
   public Possession removePossessionByNom(
       @PathVariable("nom_patrimoine") String nomPatrimoine,
       @PathVariable("nom_possession") String nomPossession) {
-    return possessionService.removePossession(nomPatrimoine, nomPossession)
+    return possessionService
+        .removePossession(nomPatrimoine, nomPossession)
         .map(possesionMapper::toRestModel)
         .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
   }

@@ -17,17 +17,7 @@ public class Pageable<E> {
     int firstIndex = lastIndex - pageSize;
 
     if (list.isEmpty()) {
-      return new Page<>(
-          1,
-          true,
-          true,
-          list,
-          false,
-          false,
-          1,
-          pageSize,
-          0
-      );
+      return new Page<>(1, true, true, list, false, false, 1, pageSize, 0);
     }
 
     if (firstIndex > list.size() - 1 || pageNumber <= 0) {
