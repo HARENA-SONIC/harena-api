@@ -1,6 +1,7 @@
 package com.harena.api.endpoint.rest.mapper;
 
-import java.util.Objects;
+import static java.util.Objects.requireNonNull;
+
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -28,8 +29,8 @@ public class FluxImpossibleMapper
     return new FluxImpossibles(
         restModel.getDate(),
         restModel.getNomArgent(),
-        Objects.requireNonNull(restModel.getValeurArgent()),
-        Objects.requireNonNull(restModel.getFluxArgents()).stream()
+        requireNonNull(restModel.getValeurArgent()),
+        requireNonNull(restModel.getFluxArgents()).stream()
             .map(fluxAgentMapper::toObjectModel)
             .collect(Collectors.toSet()));
   }

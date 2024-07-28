@@ -3,12 +3,16 @@ package com.harena.api.endpoint.rest.mapper;
 import static java.util.Objects.requireNonNullElse;
 
 import java.time.LocalDate;
+import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Component;
 import school.hei.patrimoine.modele.possession.Materiel;
 
 @Component
+@RequiredArgsConstructor
 class MaterielMapper implements Mapper<Materiel, com.harena.api.endpoint.rest.model.Materiel> {
+  private final DeviseMapper deviseMapper;
+
   @SneakyThrows
   private static Object getPrivateFieldValue(String fieldName, Object instance) {
     var field = Materiel.class.getDeclaredField(fieldName);
@@ -20,21 +24,16 @@ class MaterielMapper implements Mapper<Materiel, com.harena.api.endpoint.rest.mo
 
   @Override
   public com.harena.api.endpoint.rest.model.Materiel toRestModel(Materiel objectModel) {
-    var material = new com.harena.api.endpoint.rest.model.Materiel();
-    material.setNom(objectModel.getNom());
-    material.setT(objectModel.getT());
-    material.setValeurComptable(objectModel.getValeurComptable());
-    material.setDevise(new DeviseMapper().toRestModel(objectModel.getDevise()));
-
-    // The worst things ! cause field: dateAcquisition and tauxDAppreciationAnnuelle don't have
-    // getter
-    var dateAcquisition = (LocalDate) getPrivateFieldValue("dateAcquisition", objectModel);
-    var tauxDAppreciationAnnuelle =
-        (Double) getPrivateFieldValue("tauxDAppreciationAnnuelle", objectModel);
-
-    material.setDateDAcquisition(dateAcquisition);
-    material.setTauxDappreciationAnnuel(tauxDAppreciationAnnuelle);
-    return material;
+    return new com.harena.api.endpoint.rest.model.Materiel()
+        .nom(objectModel.getNom())
+        .t(objectModel.getT())
+        .valeurComptable(objectModel.getValeurComptable())
+        .devise(deviseMapper.toRestModel(objectModel.getDevise()))
+        // The worst things ! cause field: dateAcquisition and tauxDAppreciationAnnuelle don't have
+        // getter
+        .dateDAcquisition((LocalDate) getPrivateFieldValue("dateAcquisition", objectModel))
+        .tauxDappreciationAnnuel(
+            (Double) getPrivateFieldValue("tauxDAppreciationAnnuelle", objectModel));
   }
 
   @Override
