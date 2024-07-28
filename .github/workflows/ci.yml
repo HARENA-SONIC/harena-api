@@ -11,7 +11,9 @@ on:
 
   workflow_call:
 
-
+env:
+  CODEARTIFACT_URL: ${{ secrets.CODEARTIFACT_URL }}
+  CODEARTIFACT_USERNAME: ${{ secrets.CODEARTIFACT_USERNAME }}
 
 jobs:
   test:
@@ -33,9 +35,9 @@ jobs:
           java-version: '21'
           distribution: 'corretto'
       - run: chmod +x gradlew
-      - run: ./gradlew test
+      - run: export CODEARTIFACT_PASSWORD=$(aws codeartifact get-authorization-token --domain patrimoine-sonic --domain-owner 008541141815 --region eu-west-3 --query authorizationToken --output text) && /gradlew test
 
-      
+
 
   format:
     runs-on: ubuntu-latest
