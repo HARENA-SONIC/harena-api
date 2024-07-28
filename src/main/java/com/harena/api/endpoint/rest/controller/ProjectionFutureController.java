@@ -2,16 +2,15 @@ package com.harena.api.endpoint.rest.controller;
 
 import com.harena.api.endpoint.rest.mapper.FluxImpossibleMapper;
 import com.harena.api.endpoint.rest.model.FluxImpossibles;
+import com.harena.api.exception.InternalServerErrorException;
 import com.harena.api.service.ProjectionFutureService;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.time.LocalDate;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @RequiredArgsConstructor
@@ -39,7 +38,7 @@ public class ProjectionFutureController {
       return Files.readAllBytes(
           projectionFutureService.getGraph(nomPatrimoine, debut, fin).toPath());
     } catch (IOException e) {
-      throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
+      throw new InternalServerErrorException();
     }
   }
 }
