@@ -17,14 +17,14 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("patrimoines")
 public class PatrimoineController {
   private final PatrimoineService patrimoineService;
-  private final PatrimoineMapper mapper;
+  private final PatrimoineMapper patrimoineMapper;
 
   @PutMapping
   public List<Patrimoine> crupdatePatrimoines(@RequestBody ListPayload<Patrimoine> entity) {
     List<school.hei.patrimoine.modele.Patrimoine> patrimoines =
-        entity.data().stream().map(mapper::toObjectModel).toList();
+        entity.data().stream().map(patrimoineMapper::toObjectModel).toList();
     return patrimoineService.savePatrimoines(patrimoines).stream()
-        .map(mapper::toRestModel)
+        .map(patrimoineMapper::toRestModel)
         .toList();
   }
 
@@ -33,13 +33,15 @@ public class PatrimoineController {
       @RequestParam("page") int pageNumber, @RequestParam("page_size") int pageSize) {
     Pageable<Patrimoine> patrimoinePageable =
         new Pageable<>(
-            patrimoineService.getAllPatrimoine().stream().map(mapper::toRestModel).toList());
+            patrimoineService.getAllPatrimoine().stream()
+                .map(patrimoineMapper::toRestModel)
+                .toList());
     return patrimoinePageable.getPage(PageRequest.of(pageNumber, pageSize));
   }
 
-  @GetMapping("/{nom_patrimoine}")
-  public Patrimoine getPatrimoine(@PathVariable(name = "nom_patrimoine") String id) {
-    return mapper.toRestModel(
-        patrimoineService.getPatrimone(id).orElseThrow(NotFoundException::new));
+  @GetMapping("/{nomPatrimoine}")
+  public Patrimoine getPatrimoine(@PathVariable String nomPatrimoine) {
+    return patrimoineMapper.toRestModel(
+        patrimoineService.getPatrimone(nomPatrimoine).orElseThrow(NotFoundException::new));
   }
 }

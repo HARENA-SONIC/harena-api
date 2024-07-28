@@ -17,14 +17,14 @@ import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/patrimoines/{nom_patrimoine}/possessions")
+@RequestMapping("/patrimoines/{nomPatrimoine}/possessions")
 public class PossessionController {
   private final PossessionService possessionService;
   private final PossesionMapper possesionMapper;
 
   @GetMapping
   public Page<Possession> getPatrimoinePossessions(
-      @PathVariable(name = "nom_patrimoine") String nomPatrimoine,
+      @PathVariable String nomPatrimoine,
       @RequestParam("page") int pageNumber,
       @RequestParam("page_size") int pageSize) {
     var possessions =
@@ -38,8 +38,7 @@ public class PossessionController {
 
   @PutMapping
   public List<Possession> crupdatePatrimoinePossessions(
-      @PathVariable(name = "nom_patrimoine") String nomPatrimoine,
-      @RequestBody ListPayload<Possession> toSavePossessions) {
+      @PathVariable String nomPatrimoine, @RequestBody ListPayload<Possession> toSavePossessions) {
     return possessionService
         .savePossessions(
             nomPatrimoine,
@@ -49,10 +48,9 @@ public class PossessionController {
         .toList();
   }
 
-  @GetMapping("/{nom_possession}")
+  @GetMapping("/{nomPossession}")
   public Possession getPossessionPatrimoineByNom(
-      @PathVariable(name = "nom_patrimoine") String nomPatrimoine,
-      @PathVariable(name = "nom_possession") String nomPossession) {
+      @PathVariable String nomPatrimoine, @PathVariable String nomPossession) {
     Optional<Possession> fetchedPossession =
         possessionService
             .getPossession(nomPatrimoine, nomPossession)
@@ -61,10 +59,9 @@ public class PossessionController {
     return fetchedPossession.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
   }
 
-  @DeleteMapping("/{nom_possession}")
+  @DeleteMapping("/{nomPossession}")
   public Possession removePossessionByNom(
-      @PathVariable("nom_patrimoine") String nomPatrimoine,
-      @PathVariable("nom_possession") String nomPossession) {
+      @PathVariable String nomPatrimoine, @PathVariable String nomPossession) {
     return possessionService
         .removePossession(nomPatrimoine, nomPossession)
         .map(possesionMapper::toRestModel)

@@ -14,24 +14,24 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/patrimoines/{nom_patrimoine}")
+@RequestMapping("/patrimoines/{nomPatrimoine}")
 public class ProjectionFutureController {
   private final ProjectionFutureService projectionFutureService;
-  private final FluxImpossibleMapper mapper;
+  private final FluxImpossibleMapper fluxImpossibleMapper;
 
   @GetMapping("flux-impossibles")
   public List<FluxImpossibles> fluxImpossibles(
-      @PathVariable("nom_patrimoine") String nomPatrimoine,
+      @PathVariable String nomPatrimoine,
       @RequestParam LocalDate debut,
       @RequestParam LocalDate fin) {
     return projectionFutureService.getFluxImpossibles(nomPatrimoine, debut, fin).stream()
-        .map(mapper::toRestModel)
+        .map(fluxImpossibleMapper::toRestModel)
         .toList();
   }
 
   @GetMapping(value = "graphe", produces = MediaType.IMAGE_PNG_VALUE)
   public byte[] getGraphe(
-      @PathVariable("nom_patrimoine") String nomPatrimoine,
+      @PathVariable String nomPatrimoine,
       @RequestParam LocalDate debut,
       @RequestParam LocalDate fin) {
     try {
