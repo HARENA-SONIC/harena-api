@@ -11,10 +11,6 @@ on:
 
   workflow_call:
 
-env:
-  CODEARTIFACT_URL: ${{ secrets.CODEARTIFACT_URL }}
-  CODEARTIFACT_USERNAME: ${{ secrets.CODEARTIFACT_USERNAME }}
-
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -35,7 +31,11 @@ jobs:
           java-version: '21'
           distribution: 'corretto'
       - run: chmod +x gradlew
-      - run: export CODEARTIFACT_PASSWORD=$(aws codeartifact get-authorization-token --domain patrimoine-sonic --domain-owner 008541141815 --region eu-west-3 --query authorizationToken --output text) && /gradlew test
+      - run: |
+          export CODEARTIFACT_USERNAME=aws
+          export CODEARTIFACT_URL=https://patrimoine-sonic-008541141815.d.codeartifact.eu-west-3.amazonaws.com/maven/harena-patrimoine/
+          export CODEARTIFACT_PASSWORD=$(aws codeartifact get-authorization-token --domain patrimoine-sonic --domain-owner 008541141815 --region eu-west-3 --query authorizationToken --output text)
+          ./gradlew test
 
 
 
