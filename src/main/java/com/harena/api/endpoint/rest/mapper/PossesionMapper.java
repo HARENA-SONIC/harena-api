@@ -1,4 +1,4 @@
-package com.harena.api.service.mappers;
+package com.harena.api.endpoint.rest.mapper;
 
 import static com.harena.api.endpoint.rest.model.Possession.TypeEnum.*;
 

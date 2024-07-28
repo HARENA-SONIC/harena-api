@@ -1,8 +1,8 @@
-package com.harena.api.endpoint.rest.patrimoine;
+package com.harena.api.endpoint.rest.controller;
 
+import com.harena.api.endpoint.rest.mapper.FluxImpossibleMapper;
 import com.harena.api.endpoint.rest.model.FluxImpossibles;
 import com.harena.api.service.ProjectionFutureService;
-import com.harena.api.service.mappers.FluxImpossibleMapper;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.time.LocalDate;

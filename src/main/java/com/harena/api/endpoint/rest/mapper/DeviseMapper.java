@@ -1,4 +1,4 @@
-package com.harena.api.service.mappers;
+package com.harena.api.endpoint.rest.mapper;
 
 import org.springframework.stereotype.Component;
 import school.hei.patrimoine.modele.Devise;

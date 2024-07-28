@@ -1,4 +1,4 @@
-package com.harena.api.service.mappers;
+package com.harena.api.endpoint.rest.mapper;
 
 import java.util.Objects;
 import java.util.stream.Collectors;

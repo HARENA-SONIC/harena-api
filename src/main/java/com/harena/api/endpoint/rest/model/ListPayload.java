@@ -1,4 +1,4 @@
-package com.harena.api.endpoint.rest.patrimoine;
+package com.harena.api.endpoint.rest.model;
 
 import java.util.List;
 

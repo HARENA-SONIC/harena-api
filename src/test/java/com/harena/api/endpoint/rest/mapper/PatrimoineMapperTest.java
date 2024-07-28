@@ -1,4 +1,4 @@
-package com.harena.api.service.mappers;
+package com.harena.api.endpoint.rest.mapper;
 
 import static java.time.Month.JUNE;
 import static org.junit.jupiter.api.Assertions.assertEquals;

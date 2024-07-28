@@ -1,8 +1,9 @@
-package com.harena.api.endpoint.rest.patrimoine;
+package com.harena.api.endpoint.rest.controller;
 
+import com.harena.api.endpoint.rest.mapper.PatrimoineMapper;
+import com.harena.api.endpoint.rest.model.ListPayload;
 import com.harena.api.endpoint.rest.model.Patrimoine;
 import com.harena.api.service.PatrimoineService;
-import com.harena.api.service.mappers.PatrimoineMapper;
 import com.harena.api.utils.Page;
 import com.harena.api.utils.PageRequest;
 import com.harena.api.utils.Pageable;

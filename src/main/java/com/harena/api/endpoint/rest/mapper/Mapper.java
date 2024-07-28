@@ -1,4 +1,4 @@
-package com.harena.api.service.mappers;
+package com.harena.api.endpoint.rest.mapper;
 
 public interface Mapper<T, R> {
   public R toRestModel(T objectModel);
