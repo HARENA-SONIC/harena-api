@@ -37,15 +37,16 @@ public class PossessionController {
   }
 
   @PutMapping
-  public List<Possession> crupdatePatrimoinePossessions(
+  public ListPayload<Possession> crupdatePatrimoinePossessions(
       @PathVariable String nomPatrimoine, @RequestBody ListPayload<Possession> toSavePossessions) {
-    return possessionService
-        .savePossessions(
-            nomPatrimoine,
-            toSavePossessions.data().stream().map(possesionMapper::toObjectModel).toList())
-        .stream()
-        .map(possesionMapper::toRestModel)
-        .toList();
+    return new ListPayload<>(
+        possessionService
+            .savePossessions(
+                nomPatrimoine,
+                toSavePossessions.data().stream().map(possesionMapper::toObjectModel).toList())
+            .stream()
+            .map(possesionMapper::toRestModel)
+            .toList());
   }
 
   @GetMapping("/{nomPossession}")

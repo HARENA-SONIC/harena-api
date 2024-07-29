@@ -12,12 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 public class BucketProviderIT extends FacadeIT {
-  @MockBean
-  EnvProvider envProvider;
-  @Autowired
-  BucketComponent bucketComponent;
-  @Autowired
-  BucketConf conf;
+  @MockBean EnvProvider envProvider;
+  @Autowired BucketComponent bucketComponent;
+  @Autowired BucketConf conf;
 
   @Test
   void bucket_provider_local() {

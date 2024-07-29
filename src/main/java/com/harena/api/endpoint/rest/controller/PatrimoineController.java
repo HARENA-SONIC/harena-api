@@ -20,12 +20,13 @@ public class PatrimoineController {
   private final PatrimoineMapper patrimoineMapper;
 
   @PutMapping
-  public List<Patrimoine> crupdatePatrimoines(@RequestBody ListPayload<Patrimoine> entity) {
+  public ListPayload<Patrimoine> crupdatePatrimoines(@RequestBody ListPayload<Patrimoine> entity) {
     List<school.hei.patrimoine.modele.Patrimoine> patrimoines =
         entity.data().stream().map(patrimoineMapper::toObjectModel).toList();
-    return patrimoineService.savePatrimoines(patrimoines).stream()
-        .map(patrimoineMapper::toRestModel)
-        .toList();
+    return new ListPayload<>(
+        patrimoineService.savePatrimoines(patrimoines).stream()
+            .map(patrimoineMapper::toRestModel)
+            .toList());
   }
 
   @GetMapping

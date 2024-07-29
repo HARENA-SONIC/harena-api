@@ -2,6 +2,7 @@ package com.harena.api.endpoint.rest.controller;
 
 import com.harena.api.endpoint.rest.mapper.FluxImpossibleMapper;
 import com.harena.api.endpoint.rest.model.FluxImpossibles;
+import com.harena.api.endpoint.rest.model.ListPayload;
 import com.harena.api.exception.InternalServerErrorException;
 import com.harena.api.service.ProjectionFutureService;
 import java.io.IOException;
@@ -20,13 +21,13 @@ public class ProjectionFutureController {
   private final FluxImpossibleMapper fluxImpossibleMapper;
 
   @GetMapping("flux-impossibles")
-  public List<FluxImpossibles> fluxImpossibles(
+  public ListPayload<FluxImpossibles> fluxImpossibles(
       @PathVariable String nomPatrimoine,
       @RequestParam LocalDate debut,
       @RequestParam LocalDate fin) {
-    return projectionFutureService.getFluxImpossibles(nomPatrimoine, debut, fin).stream()
+    return new ListPayload<>(projectionFutureService.getFluxImpossibles(nomPatrimoine, debut, fin).stream()
         .map(fluxImpossibleMapper::toRestModel)
-        .toList();
+        .toList());
   }
 
   @GetMapping(value = "graphe", produces = MediaType.IMAGE_PNG_VALUE)
