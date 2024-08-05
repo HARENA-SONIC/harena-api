@@ -2,6 +2,7 @@ package com.harena.api.service;
 
 import com.harena.api.utils.StringNormalizer;
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashMap;
@@ -38,35 +39,43 @@ public class PatrimoineService {
 
   @SneakyThrows
   public List<Patrimoine> savePatrimoines(List<Patrimoine> toSavePatrimoines) {
-    File oldPatrimoinesFile = bucketProvider.getBucket().download(PATRIMOINE_KEY);
-    if (!oldPatrimoinesFile.exists()) {
-      oldPatrimoinesFile.createNewFile();
-      HashMap<String, Patrimoine> emptyPatrimoine = new HashMap<>();
-      Files.writeString(oldPatrimoinesFile.toPath(), serializer.serialise(emptyPatrimoine));
+    try {
+      File oldPatrimoinesFile = bucketProvider.getBucket().download(PATRIMOINE_KEY);
+      String oldPatrimoineString = Files.readString(oldPatrimoinesFile.toPath());
+      HashMap<String, Patrimoine> patrimoines = serializer.deserialise(oldPatrimoineString);
+      updatePatrimoine(toSavePatrimoines, patrimoines);
+      return patrimoines.values().stream().toList();
+    } catch (Exception e) {
+      Path tempFile = Files.createTempFile(PATRIMOINE_KEY, null);
+      HashMap<String, Patrimoine> tempPatrimoine = new HashMap<>();
+      Files.writeString(tempFile, serializer.serialise(tempPatrimoine));
+      updatePatrimoine(toSavePatrimoines, tempPatrimoine);
+      return toSavePatrimoines;
     }
+  }
 
-    String oldPatrimoineString = Files.readString(oldPatrimoinesFile.toPath());
-    HashMap<String, Patrimoine> patrimoines = serializer.deserialise(oldPatrimoineString);
+  private void updatePatrimoine(
+      List<Patrimoine> toSavePatrimoines, HashMap<String, Patrimoine> currentPatrimoine)
+      throws IOException {
     toSavePatrimoines.forEach(
         patrimoine -> {
-          patrimoines.put(StringNormalizer.apply(patrimoine.nom().toLowerCase()), patrimoine);
+          currentPatrimoine.put(StringNormalizer.apply(patrimoine.nom()), patrimoine);
         });
-
-    String newPatrimoineString = serializer.serialise(patrimoines);
+    String newPatrimoineString = serializer.serialise(currentPatrimoine);
     Path tmpFile = Files.createTempFile(PATRIMOINE_KEY, null);
     File serializedPatrimoine = Files.writeString(tmpFile, newPatrimoineString).toFile();
     bucketProvider.getBucket().upload(serializedPatrimoine, PATRIMOINE_KEY);
-    return toSavePatrimoines;
   }
 
   @SneakyThrows
   public List<Patrimoine> getAllPatrimoine() {
-    File patrimoinesFile = bucketProvider.getBucket().download(PATRIMOINE_KEY);
-    if (!patrimoinesFile.exists()) {
+    try {
+      File patrimoinesFile = bucketProvider.getBucket().download(PATRIMOINE_KEY);
+      HashMap<String, Patrimoine> patrimoines =
+          serializer.deserialise(Files.readString(patrimoinesFile.toPath()));
+      return patrimoines.values().stream().toList();
+    } catch (Exception e) {
       return List.of();
     }
-    HashMap<String, Patrimoine> patrimoines =
-        serializer.deserialise(Files.readString(patrimoinesFile.toPath()));
-    return patrimoines.values().stream().toList();
   }
 }
